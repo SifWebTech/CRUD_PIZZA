@@ -82,6 +82,26 @@ public class PizzaDAOImpl implements GenericDAO {
 
     @Override
     public void excluir(int idObject) {
+        Connection con = null;
+        PreparedStatement stmt = null;
+        String sql = "DELETE FROM pizza WHERE id_pizza = ?";
+
+        try {
+            con = ConnectionFactory.getConnection();
+            stmt = con.prepareStatement(sql);
+            stmt.setInt(1, idObject);
+            stmt.executeUpdate();
+        } catch (Exception ex) {
+            System.out.println("Problema ao excluir a pizza: " + ex.getMessage());
+            ex.printStackTrace();
+        } finally {
+            try {
+                ConnectionFactory.closeConnection(con, stmt);
+            } catch (Exception ex) {
+                System.out.println("Problema ao fechar a conexao: " + ex.getMessage());
+                ex.printStackTrace();
+            }
+        }
     }
 
     @Override
