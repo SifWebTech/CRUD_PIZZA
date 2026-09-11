@@ -1,0 +1,19 @@
+# Build
+target/
+build/
+dist/
+nbproject/private/
+*.war
+*.class
+
+# IDE
+.idea/
+*.iml
+.settings/
+.classpath
+.project
+.vscode/
+
+# Sistema
+Thumbs.db
+desktop.ini
