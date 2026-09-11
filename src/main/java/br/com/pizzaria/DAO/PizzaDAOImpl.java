@@ -49,7 +49,35 @@ public class PizzaDAOImpl implements GenericDAO {
 
     @Override
     public boolean alterar(Object object) {
-        return false;
+        Pizza pizza = (Pizza) object;
+
+        Connection con = null;
+        PreparedStatement stmt = null;
+        String sql = "UPDATE pizza SET nome_pizza = ?, descricao_pizza = ?, tamanho_pizza = ?, "
+                   + "preco_pizza = ? WHERE id_pizza = ?";
+
+        try {
+            con = ConnectionFactory.getConnection();
+            stmt = con.prepareStatement(sql);
+            stmt.setString(1, pizza.getNomePizza());
+            stmt.setString(2, pizza.getDescricaoPizza());
+            stmt.setString(3, pizza.getTamanhoPizza());
+            stmt.setBigDecimal(4, pizza.getPrecoPizza());
+            stmt.setInt(5, pizza.getIdPizza());
+            stmt.executeUpdate();
+            return true;
+        } catch (Exception ex) {
+            System.out.println("Problema ao alterar a pizza: " + ex.getMessage());
+            ex.printStackTrace();
+            return false;
+        } finally {
+            try {
+                ConnectionFactory.closeConnection(con, stmt);
+            } catch (Exception ex) {
+                System.out.println("Problema ao fechar a conexao: " + ex.getMessage());
+                ex.printStackTrace();
+            }
+        }
     }
 
     @Override
@@ -94,8 +122,44 @@ public class PizzaDAOImpl implements GenericDAO {
         return resultado;
     }
 
+    /**
+     * Busca uma unica pizza pelo seu id. Utilizada para carregar a tela de alteracao.
+     */
     @Override
     public Object buscarPorId(int idObject) {
-        return null;
+        Pizza pizza = null;
+
+        Connection con = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        String sql = "SELECT id_pizza, nome_pizza, descricao_pizza, tamanho_pizza, preco_pizza "
+                   + "FROM pizza WHERE id_pizza = ?";
+
+        try {
+            con = ConnectionFactory.getConnection();
+            stmt = con.prepareStatement(sql);
+            stmt.setInt(1, idObject);
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                pizza = new Pizza();
+                pizza.setIdPizza(rs.getInt("id_pizza"));
+                pizza.setNomePizza(rs.getString("nome_pizza"));
+                pizza.setDescricaoPizza(rs.getString("descricao_pizza"));
+                pizza.setTamanhoPizza(rs.getString("tamanho_pizza"));
+                pizza.setPrecoPizza(rs.getBigDecimal("preco_pizza"));
+            }
+        } catch (Exception ex) {
+            System.out.println("Problema ao buscar a pizza: " + ex.getMessage());
+            ex.printStackTrace();
+        } finally {
+            try {
+                ConnectionFactory.closeConnection(con, stmt, rs);
+            } catch (Exception ex) {
+                System.out.println("Problema ao fechar a conexao: " + ex.getMessage());
+                ex.printStackTrace();
+            }
+        }
+        return pizza;
     }
 }
