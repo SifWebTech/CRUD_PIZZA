@@ -5,6 +5,7 @@ import br.com.pizzaria.util.ConnectionFactory;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,7 +58,40 @@ public class PizzaDAOImpl implements GenericDAO {
 
     @Override
     public List<Object> listar() {
-        return new ArrayList<Object>();
+        List<Object> resultado = new ArrayList<Object>();
+
+        Connection con = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        String sql = "SELECT id_pizza, nome_pizza, descricao_pizza, tamanho_pizza, preco_pizza "
+                   + "FROM pizza ORDER BY nome_pizza";
+
+        try {
+            con = ConnectionFactory.getConnection();
+            stmt = con.prepareStatement(sql);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Pizza pizza = new Pizza();
+                pizza.setIdPizza(rs.getInt("id_pizza"));
+                pizza.setNomePizza(rs.getString("nome_pizza"));
+                pizza.setDescricaoPizza(rs.getString("descricao_pizza"));
+                pizza.setTamanhoPizza(rs.getString("tamanho_pizza"));
+                pizza.setPrecoPizza(rs.getBigDecimal("preco_pizza"));
+                resultado.add(pizza);
+            }
+        } catch (Exception ex) {
+            System.out.println("Problema ao listar as pizzas: " + ex.getMessage());
+            ex.printStackTrace();
+        } finally {
+            try {
+                ConnectionFactory.closeConnection(con, stmt, rs);
+            } catch (Exception ex) {
+                System.out.println("Problema ao fechar a conexao: " + ex.getMessage());
+                ex.printStackTrace();
+            }
+        }
+        return resultado;
     }
 
     @Override
