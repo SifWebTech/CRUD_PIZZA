@@ -2,52 +2,99 @@
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
     <head>
         <meta charset="UTF-8">
-        <title>Pizzas Cadastradas</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Pizzas Cadastradas - Iglesias Siqueira Pizzas</title>
+        <link rel="icon" href="imagens/logo.svg" type="image/svg+xml">
         <link rel="stylesheet" href="css/estilo.css">
     </head>
     <body>
-        <h1>Pizzas Cadastradas</h1>
+        <header>
+            <div class="topo">
+                <div class="marca">
+                    <img src="imagens/logo.svg" alt="Brasão da Iglesias Siqueira Pizzas">
+                    <div>
+                        <p class="marca-nome">Iglesias Siqueira Pizzas</p>
+                        <p class="marca-slogan">Espanha e Portugal fazendo as melhores pizzas da Itália</p>
+                    </div>
+                </div>
 
-        <p class="mensagem">${sucesso}</p>
+                <nav>
+                    <a href="index.jsp">Início</a>
+                    <a href="cadastrarpizza.jsp">Cadastrar</a>
+                    <a href="ListarPizza" class="ativo">Listar</a>
+                </nav>
+            </div>
+        </header>
 
-        <table>
-            <tr>
-                <th>Codigo</th>
-                <th>Nome</th>
-                <th>Descricao</th>
-                <th>Tamanho</th>
-                <th>Preco</th>
-                <th>Alterar</th>
-                <th>Excluir</th>
-            </tr>
-            <%
-                List<Pizza> pizzas = (List<Pizza>) request.getAttribute("pizzas");
+        <section class="titulo-pagina">
+            <h1>Pizzas Cadastradas</h1>
+            <p>Consulte, altere ou remova sabores do banco de dados</p>
+        </section>
 
-                if (pizzas != null) {
-                    for (Pizza pizza : pizzas) {
-            %>
-            <tr>
-                <td><%= pizza.getIdPizza()%></td>
-                <td><%= pizza.getNomePizza()%></td>
-                <td><%= pizza.getDescricaoPizza()%></td>
-                <td><%= pizza.getTamanhoPizza()%></td>
-                <td>R$ <%= pizza.getPrecoPizza()%></td>
-                <td><a href="AlterarPizza?idPizza=<%= pizza.getIdPizza()%>">Alterar</a></td>
-                <td><a href="ExcluirPizza?idPizza=<%= pizza.getIdPizza()%>"
-                       onclick="return confirm('Deseja realmente excluir esta pizza?');">Excluir</a></td>
-            </tr>
-            <%
-                    }
-                }
-            %>
-        </table>
+        <main>
+            <section>
+                <h2>Cardápio administrativo</h2>
+                <p class="mensagem">${sucesso}</p>
 
-        <p>
-            <a href="cadastrarpizza.jsp">Cadastrar nova pizza</a> |
-            <a href="index.jsp">Voltar ao menu</a>
-        </p>
+                <div class="botoes">
+                    <a class="botao" href="cadastrarpizza.jsp">Cadastrar nova pizza</a>
+                </div>
+
+                <div class="tabela-rolagem">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Código</th>
+                                <th>Nome</th>
+                                <th>Descrição</th>
+                                <th>Tamanho</th>
+                                <th>Preço</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <%
+                                List<Pizza> pizzas = (List<Pizza>) request.getAttribute("pizzas");
+
+                                if (pizzas != null && !pizzas.isEmpty()) {
+                                    for (Pizza pizza : pizzas) {
+                            %>
+                            <tr>
+                                <td><%= pizza.getIdPizza()%></td>
+                                <td><strong><%= pizza.getNomePizza()%></strong></td>
+                                <td><%= pizza.getDescricaoPizza()%></td>
+                                <td><%= pizza.getTamanhoPizza()%></td>
+                                <td class="preco">R$ <%= pizza.getPrecoPizza()%></td>
+                                <td>
+                                    <div class="acoes-tabela">
+                                        <a class="alterar" href="AlterarPizza?idPizza=<%= pizza.getIdPizza()%>">Alterar</a>
+                                        <a class="excluir" href="ExcluirPizza?idPizza=<%= pizza.getIdPizza()%>">Excluir</a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <%
+                                    }
+                                } else {
+                            %>
+                            <tr>
+                                <td colspan="6">Nenhuma pizza cadastrada até o momento.</td>
+                            </tr>
+                            <%
+                                }
+                            %>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p class="marca-rodape">Iglesias Siqueira Pizzas</p>
+            <p class="lema-rodape">Espanha e Portugal fazendo as melhores pizzas da Itália</p>
+            <p class="projeto">Felipe Iglesias Siqueira - 5º Semestre Sistemas para Internet - Prof. André Mussato</p>
+        </footer>
     </body>
 </html>

@@ -2,6 +2,7 @@ package br.com.pizzaria.controller;
 
 import br.com.pizzaria.DAO.GenericDAO;
 import br.com.pizzaria.DAO.PizzaDAOImpl;
+import br.com.pizzaria.model.Pizza;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -13,12 +14,31 @@ import java.io.IOException;
 
 /**
  * Servlet responsavel por excluir a pizza escolhida na listagem.
- * Apos a exclusao devolve o usuario para a listagem atualizada.
+ * No GET carrega a tela de confirmacao; no POST executa a exclusao.
  */
 @WebServlet(name = "ExcluirPizza", urlPatterns = {"/ExcluirPizza"})
 public class ExcluirPizza extends HttpServlet {
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        try {
+            int idPizza = Integer.parseInt(request.getParameter("idPizza"));
+
+            GenericDAO dao = new PizzaDAOImpl();
+            Pizza pizza = (Pizza) dao.buscarPorId(idPizza);
+
+            request.setAttribute("pizza", pizza);
+            request.getRequestDispatcher("excluirpizza.jsp").forward(request, response);
+        } catch (Exception ex) {
+            request.setAttribute("sucesso", "Erro ao carregar a pizza: " + ex.getMessage());
+            request.getRequestDispatcher("ListarPizza").forward(request, response);
+        }
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         String mensagem;
@@ -37,17 +57,5 @@ public class ExcluirPizza extends HttpServlet {
 
         request.setAttribute("sucesso", mensagem);
         request.getRequestDispatcher("ListarPizza").forward(request, response);
-    }
-
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
     }
 }
