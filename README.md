@@ -90,12 +90,31 @@ CREATE TABLE pizza (
 );
 ```
 
-Usuário, senha e porta ficam em `src/main/java/br/com/pizzaria/util/ConnectionFactory.java`.
+Usuário, porta e nome do banco ficam em
+`src/main/java/br/com/pizzaria/util/ConnectionFactory.java`.
+A senha deve ser informada pela variável de ambiente `DB_PASSWORD` ou pelo
+arquivo local `.env`. O `.env` fica no `.gitignore`, portanto não é enviado ao
+GitHub. Se nenhuma configuração for definida, o projeto usa `postgres` como
+valor padrão para ambiente local.
+
+Exemplo de `.env`:
+
+```
+DB_PASSWORD=sua_senha_do_postgres
+```
 
 ## Como executar
 
 ```
 mvn clean package
+mvn jetty:run
+```
+
+No Windows PowerShell, caso sua senha do PostgreSQL não seja `postgres`, defina
+a variável antes de iniciar o Jetty ou crie o arquivo `.env` na raiz do projeto:
+
+```
+$env:DB_PASSWORD="sua_senha_do_postgres"
 mvn jetty:run
 ```
 
