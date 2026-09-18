@@ -18,7 +18,7 @@ A aplicação permite as quatro operações sobre a entidade `Pizza`:
 | Cadastrar | `cadastrarpizza.jsp` → `CadastrarPizza` |
 | Listar | `ListarPizza` → `listarpizza.jsp` |
 | Alterar | `AlterarPizza` → `alterarpizza.jsp` |
-| Excluir | `ExcluirPizza` → volta para a listagem |
+| Excluir | `ExcluirPizza` → `excluirpizza.jsp` → volta para a listagem |
 
 ## Arquitetura
 
@@ -32,6 +32,11 @@ br.com.pizzaria
 
 A **View** são páginas JSP em `src/main/webapp`. O fluxo segue sempre
 View → Controller → DAO → Banco, e o retorno faz o caminho inverso.
+
+O layout do CRUD foi integrado ao visual do primeiro projeto da disciplina,
+o site estático **Iglesias Siqueira Pizzas**. Assim, o primeiro trabalho funciona
+como vitrine/cardápio institucional e este projeto funciona como área
+administrativa para gerenciar as pizzas no banco de dados.
 
 ## Estrutura de arquivos
 
@@ -55,7 +60,10 @@ CRUD_PIZZA/
         ├── cadastrarpizza.jsp
         ├── listarpizza.jsp
         ├── alterarpizza.jsp
+        ├── excluirpizza.jsp
+        ├── imagens/
         ├── css/estilo.css
+        ├── css/fontes/
         └── WEB-INF/web.xml
 ```
 
@@ -137,6 +145,28 @@ diferenças necessárias para rodar no ambiente usado:
 Também foi acrescentado o método `buscarPorId` à interface `GenericDAO`, usado
 para carregar os dados atuais no formulário de alteração.
 
+## Integração com o primeiro projeto
+
+Depois da conclusão do CRUD funcional, foi criada uma etapa extra de layout para
+aproximar este projeto do primeiro trabalho entregue na disciplina:
+
+- repositório de referência: `https://github.com/SifWebTech/atividade_git`;
+- identidade visual reaproveitada: nome, brasão, cores, fonte e imagens;
+- assets copiados para `src/main/webapp/imagens` e `src/main/webapp/css/fontes`;
+- telas JSP atualizadas com cabeçalho, navegação, títulos e rodapé da pizzaria;
+- criação da tela `excluirpizza.jsp`, deixando a exclusão com confirmação visual;
+- ajuste do servlet `ExcluirPizza` para abrir a confirmação no `GET` e excluir no `POST`.
+
+Com isso, os dois trabalhos ficam conectados conceitualmente:
+
+| Projeto | Papel |
+|---------|-------|
+| `atividade_git` | Site estático institucional/cardápio da pizzaria |
+| `CRUD_PIZZA` | Sistema Java Web para administrar o cardápio no banco |
+
+Os créditos dos assets visuais usados na integração ficam registrados em
+`CREDITOS_ASSETS.md`.
+
 ## Fluxo de branches
 
 Cada etapa foi desenvolvida em uma branch própria e incorporada à `main` por
@@ -150,9 +180,12 @@ meio de merge, conforme o enunciado da atividade:
 | 4. DAO | `feature/dao` | Estrutura do DAO, cadastro, listagem, alteração, exclusão |
 | 5. View | `feature/view` | Páginas de cadastro, listagem e alteração |
 | 6. Controller | `feature/controller` | Controllers de cadastro, listagem, alteração e exclusão |
+| 7. Documentação técnica | `main` | Documentando fluxo do projeto e configuração local do banco |
+| 8. Layout integrado | `feature/layout` | Integrando layout da pizzaria ao CRUD |
 
 Os merges foram feitos com `--no-ff` para que a ramificação fique visível no
-histórico. Para visualizar:
+histórico nas etapas principais. A etapa extra `feature/layout` foi incorporada
+por fast-forward após o commit da branch. Para visualizar:
 
 ```
 git log --graph --oneline
