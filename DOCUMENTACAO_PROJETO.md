@@ -19,6 +19,14 @@ O projeto desenvolvido e um CRUD Java Web para cadastro de pizzas, usando:
 - Camada DAO
 - PostgreSQL
 - Git e GitHub com branches por etapa
+- Layout reaproveitado do primeiro projeto `atividade_git`
+
+O trabalho ficou dividido em duas ideias que se complementam:
+
+| Parte | Repositorio | Funcao |
+|-------|-------------|--------|
+| Primeira etapa | `atividade_git` | Site estatico institucional da Iglesias Siqueira Pizzas |
+| Segunda etapa | `CRUD_PIZZA` | CRUD Java Web para administrar as pizzas no banco |
 
 ## 1. Estrutura inicial do projeto
 
@@ -325,7 +333,88 @@ e3b173b Implementando controller de alteracao
 efb6a63 Merge branch 'feature/controller'
 ```
 
-## 7. Testes e finalizacao
+## 7. Integracao visual com o primeiro projeto
+
+Depois que o CRUD completo ja estava funcional, foi realizada uma etapa extra
+para aproximar visualmente este projeto do primeiro trabalho da disciplina.
+
+Objetivo da etapa:
+
+- reaproveitar a identidade visual da pizzaria criada no projeto `atividade_git`;
+- mostrar que o primeiro projeto e a vitrine/cardapio da pizzaria;
+- mostrar que o CRUD e a area administrativa da mesma pizzaria;
+- deixar as paginas do CRUD mais apresentaveis para a entrega;
+- criar uma tela propria para confirmar exclusao.
+
+Fluxo Git usado nesta etapa:
+
+```powershell
+git checkout main
+git pull
+git checkout -b feature/layout
+```
+
+Arquivos e recursos reaproveitados do primeiro projeto:
+
+```
+src/main/webapp/imagens/
+src/main/webapp/css/fontes/UnifrakturMaguntia.woff2
+```
+
+Os creditos e a origem dos assets visuais foram registrados em:
+
+```
+CREDITOS_ASSETS.md
+```
+
+Paginas atualizadas:
+
+```
+src/main/webapp/index.jsp
+src/main/webapp/cadastrarpizza.jsp
+src/main/webapp/listarpizza.jsp
+src/main/webapp/alterarpizza.jsp
+src/main/webapp/excluirpizza.jsp
+src/main/webapp/css/estilo.css
+```
+
+Como cada pagina ficou:
+
+- `index.jsp`: passou a ser o painel administrativo da Iglesias Siqueira Pizzas.
+- `cadastrarpizza.jsp`: recebeu o layout visual da pizzaria e formulario estilizado.
+- `listarpizza.jsp`: recebeu tabela administrativa com botoes de alterar e excluir.
+- `alterarpizza.jsp`: recebeu o mesmo padrao visual do cadastro.
+- `excluirpizza.jsp`: nova pagina para confirmar a exclusao antes de remover o registro.
+- `css/estilo.css`: foi refeito com a paleta, cabecalho, rodape, botoes, tabela e formularios.
+
+Alteracao no controller de exclusao:
+
+- Antes, o link de excluir removia a pizza diretamente.
+- Agora, o metodo `GET` do servlet `ExcluirPizza` carrega a pizza e abre `excluirpizza.jsp`.
+- A exclusao real acontece apenas no metodo `POST`, depois da confirmacao.
+
+Commit da etapa:
+
+```
+4a26ec4 Integrando layout da pizzaria ao CRUD
+```
+
+Merge e push realizados:
+
+```powershell
+git checkout main
+git merge feature/layout
+git push
+```
+
+Resultado:
+
+- a branch `main` recebeu o layout integrado;
+- o GitHub foi atualizado;
+- a aplicacao manteve o CRUD funcional;
+- o sistema ficou visualmente alinhado ao primeiro projeto.
+
+## 8. Testes e finalizacao
 
 Orientacao do professor:
 
@@ -401,6 +490,26 @@ http://localhost:8080/crud-pizza/
 - Alterar uma pizza.
 - Excluir uma pizza.
 
+Testes tecnicos realizados depois do layout:
+
+```text
+HOME=200
+CSS=200
+LISTAR=200
+ALTERAR=200
+EXCLUIR=200
+BANCO_LISTAGEM=ok
+```
+
+Esses testes confirmaram que:
+
+- a pagina inicial carregou;
+- o CSS novo foi servido corretamente;
+- a listagem continuou conectando ao banco;
+- a tela de alteracao abriu corretamente;
+- a nova tela de exclusao abriu corretamente;
+- o banco retornou a pizza `Margherita` na listagem.
+
 ## Conferencia do historico Git
 
 Comando para visualizar o fluxo completo:
@@ -418,6 +527,8 @@ O historico do projeto mostra:
 8ef9ccd Merge branch 'feature/dao'
 9a57af2 Merge branch 'feature/view'
 efb6a63 Merge branch 'feature/controller'
+9d3a6b3 Documentando fluxo do projeto e configuracao local do banco
+4a26ec4 Integrando layout da pizzaria ao CRUD
 ```
 
 Branches existentes no remoto:
@@ -449,6 +560,73 @@ Durante a verificacao local:
 - O Jetty iniciou a aplicacao no contexto `/crud-pizza`.
 - A pagina inicial respondeu HTTP `200`.
 - A rota de listagem respondeu HTTP `200`.
+- O layout integrado respondeu HTTP `200` nas paginas principais.
+- A tela de exclusao passou a ter confirmacao antes do `POST`.
+
+## Roteiro para apresentacao HTML
+
+Esta documentacao pode ser transformada em uma apresentacao HTML didatica. A
+estrutura sugerida da apresentacao e:
+
+1. **Capa**
+   - Nome do projeto: CRUD_PIZZA.
+   - Disciplina: Topicos Especiais II.
+   - Professor: Andre Mussato.
+   - Aluno: Felipe Iglesias.
+
+2. **Objetivo da atividade**
+   - Vivenciar o fluxo Git com `main`, branches, commits, merges e push.
+   - Desenvolver um CRUD Java Web completo.
+
+3. **Primeiro projeto: site da pizzaria**
+   - Mostrar que `atividade_git` foi a vitrine da Iglesias Siqueira Pizzas.
+   - Destacar identidade visual: brasao, cores, imagens e cardapio.
+
+4. **Segundo projeto: CRUD_PIZZA**
+   - Explicar que o CRUD e a area administrativa da mesma pizzaria.
+   - Mostrar tecnologias: Java 17, Maven, JSP, Servlets, DAO e PostgreSQL.
+
+5. **Fluxo Git exigido**
+   - `main -> pull -> branch -> desenvolvimento -> commit -> merge -> push`.
+   - Mostrar as branches `feature/util`, `feature/model`, `feature/dao`,
+     `feature/view`, `feature/controller` e `feature/layout`.
+
+6. **Etapas de desenvolvimento**
+   - Estrutura inicial.
+   - Util e banco.
+   - Model.
+   - DAO.
+   - View.
+   - Controller.
+   - Layout integrado.
+
+7. **Banco de dados**
+   - Tabela `pizza`.
+   - Campos principais.
+   - Script `database/script.sql`.
+   - Configuracao segura com `.env`.
+
+8. **CRUD funcionando**
+   - Cadastrar pizza.
+   - Listar pizzas.
+   - Alterar pizza.
+   - Confirmar exclusao.
+
+9. **Evidencias**
+   - Commits.
+   - Merges.
+   - Push para GitHub.
+   - Testes HTTP `200`.
+
+10. **Creditos visuais**
+    - Informar que os assets vieram do primeiro projeto.
+    - Mostrar que os creditos das fotos estao registrados em `CREDITOS_ASSETS.md`.
+
+11. **Conclusao**
+    - A `main` contem o projeto completo.
+    - O CRUD esta funcional.
+    - O layout ficou alinhado ao primeiro projeto.
+    - O fluxo Git foi praticado conforme a orientacao.
 
 ## Conclusao
 
@@ -458,6 +636,7 @@ O projeto esta de acordo com a orientacao do professor:
 - usa Java Web com JSP e Servlet;
 - segue MVC + DAO;
 - usa PostgreSQL;
+- reaproveita o layout do primeiro projeto da pizzaria;
 - possui branches por etapa;
 - possui commits claros;
 - possui merges das etapas na `main`;
