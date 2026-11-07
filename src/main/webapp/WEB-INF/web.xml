@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Arquivo de configuração da aplicação web (padrão Jakarta, versão 6.0). -->
 <web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee
                              https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
          version="6.0">
 
+    <!-- Nome de exibição da aplicação. -->
     <display-name>CRUD_PIZZA</display-name>
 
+    <!-- Páginas abertas quando o endereço não indica nenhuma. -->
     <welcome-file-list>
+        <!-- A página inicial do site é index.jsp. -->
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
 

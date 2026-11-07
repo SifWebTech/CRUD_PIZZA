@@ -1,55 +1,89 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Elemento principal do arquivo de configuração do Maven. -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
+    <!-- Versão do formato deste arquivo. -->
     <modelVersion>4.0.0</modelVersion>
 
+    <!-- Identifica o grupo ou a organização do projeto. -->
     <groupId>br.com.pizzaria</groupId>
+    <!-- Nome do projeto para o Maven. -->
     <artifactId>crud-pizza</artifactId>
+    <!-- Versão do projeto. -->
     <version>1.0.0</version>
+    <!-- Gera um arquivo .war, o pacote de uma aplicação web Java. -->
     <packaging>war</packaging>
 
+    <!-- Nome de exibição do projeto. -->
     <name>CRUD_PIZZA</name>
 
+    <!-- Configurações gerais. -->
     <properties>
+        <!-- Compila o código para o Java 17. -->
         <maven.compiler.release>17</maven.compiler.release>
+        <!-- Lê os arquivos de código em UTF-8. -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+    <!-- Bibliotecas de que o projeto precisa; o Maven as baixa sozinho. -->
     <dependencies>
         <!-- API de Servlet: fornecida pelo Tomcat 10 (pacote jakarta) -->
+        <!-- Início de uma biblioteca. -->
         <dependency>
+            <!-- Grupo da biblioteca de Servlets. -->
             <groupId>jakarta.servlet</groupId>
+            <!-- Biblioteca de Servlets. -->
             <artifactId>jakarta.servlet-api</artifactId>
+            <!-- Versão 6.0 da biblioteca. -->
             <version>6.0.0</version>
+            <!-- O servidor já fornece essa biblioteca; ela não entra no .war. -->
             <scope>provided</scope>
         </dependency>
 
         <!-- Driver JDBC do PostgreSQL -->
+        <!-- Início de uma biblioteca. -->
         <dependency>
+            <!-- Grupo do driver do PostgreSQL. -->
             <groupId>org.postgresql</groupId>
+            <!-- Driver JDBC, que permite ao Java conversar com o PostgreSQL. -->
             <artifactId>postgresql</artifactId>
+            <!-- Versão do driver. -->
             <version>42.7.4</version>
         </dependency>
     </dependencies>
 
+    <!-- Configurações da construção do projeto. -->
     <build>
+        <!-- Nome do arquivo gerado: crud-pizza.war. -->
         <finalName>crud-pizza</finalName>
+        <!-- Ferramentas extras usadas pelo Maven. -->
         <plugins>
+            <!-- Início de uma ferramenta. -->
             <plugin>
+                <!-- Grupo dos plugins oficiais do Maven. -->
                 <groupId>org.apache.maven.plugins</groupId>
+                <!-- Plugin que gera o arquivo .war. -->
                 <artifactId>maven-war-plugin</artifactId>
+                <!-- Versão do plugin. -->
                 <version>3.4.0</version>
             </plugin>
 
             <!-- Executa o projeto sem precisar instalar servidor: mvn jetty:run -->
+            <!-- Início de uma ferramenta. -->
             <plugin>
+                <!-- Grupo do Jetty, um servidor web Java leve. -->
                 <groupId>org.eclipse.jetty.ee10</groupId>
+                <!-- Plugin que habilita o comando mvn jetty:run. -->
                 <artifactId>jetty-ee10-maven-plugin</artifactId>
+                <!-- Versão do Jetty. -->
                 <version>12.0.16</version>
+                <!-- Configurações do Jetty. -->
                 <configuration>
+                    <!-- Configurações da aplicação. -->
                     <webApp>
+                        <!-- Endereço do site no servidor: /crud-pizza. -->
                         <contextPath>/crud-pizza</contextPath>
                     </webApp>
                 </configuration>
