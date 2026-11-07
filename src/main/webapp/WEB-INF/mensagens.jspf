@@ -1,0 +1,23 @@
+<%-- Abre um bloco de código Java dentro da página (scriptlet). --%>
+<%
+    // Pega a mensagem de sucesso, se houver.
+    Object mensagemSucesso = request.getAttribute("sucesso");
+    // Pega a mensagem de erro, se houver.
+    Object mensagemErro = request.getAttribute("erro");
+    // Mostra o parágrafo abaixo só se existir mensagem de sucesso.
+    if (mensagemSucesso != null) {
+%>
+<%-- Parágrafo da mensagem; Html.escapar protege o texto. --%>
+<p class="mensagem"><%= br.com.pizzaria.util.Html.escapar(mensagemSucesso)%></p>
+<%-- Abre um bloco de código Java dentro da página (scriptlet). --%>
+<%
+    }
+    // Mostra o parágrafo abaixo só se existir mensagem de erro.
+    if (mensagemErro != null) {
+%>
+<%-- Parágrafo da mensagem; Html.escapar protege o texto. --%>
+<p class="mensagem erro"><%= br.com.pizzaria.util.Html.escapar(mensagemErro)%></p>
+<%-- Abre um bloco de código Java dentro da página (scriptlet). --%>
+<%
+    }
+%>

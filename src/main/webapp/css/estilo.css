@@ -1,444 +1,517 @@
+/* Registra a fonte gótica usada no projeto. */
 @font-face {
-    font-family: "Gotica";
-    src: url("fontes/UnifrakturMaguntia.woff2") format("woff2");
-    font-display: swap;
+    font-family: "Gotica"; /* tipo de letra */
+    src: url("fontes/UnifrakturMaguntia.woff2") format("woff2"); /* arquivo da fonte */
+    font-display: swap; /* mostra o texto enquanto a fonte carrega */
 }
 
+/* Variáveis com as cores do site, reaproveitadas com var(). */
 :root {
-    --vermelho: #b22222;
-    --vermelho-escuro: #7d1414;
-    --verde: #087830;
-    --verde-escuro: #065c26;
-    --dourado: #c9992f;
-    --dourado-claro: #f2c318;
-    --creme: #fffaf2;
-    --papel: #ffffff;
-    --texto: #33291f;
-    --texto-suave: #6f6152;
-    --escuro: #1a1512;
-    --borda: #e6dccb;
-    --perigo: #9f1d1d;
+    --vermelho: #b22222; /* vermelho principal */
+    --vermelho-escuro: #7d1414; /* vermelho para o hover */
+    --verde: #087830; /* verde principal */
+    --verde-escuro: #065c26; /* verde para o hover */
+    --dourado: #c9992f; /* dourado */
+    --dourado-claro: #f2c318; /* dourado claro */
+    --creme: #fffaf2; /* fundo creme da página */
+    --papel: #ffffff; /* fundo branco dos blocos */
+    --texto: #33291f; /* cor do texto */
+    --texto-suave: #6f6152; /* cor do texto secundário */
+    --escuro: #1a1512; /* cor escura */
+    --borda: #e6dccb; /* cor das bordas */
+    --perigo: #9f1d1d; /* cor de perigo e de erro */
 }
 
+/* Zera os espaços padrão de todos os elementos. */
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+    box-sizing: border-box; /* inclui borda e espaço interno na largura */
+    margin: 0; /* espaço externo */
+    padding: 0; /* espaço interno */
 }
 
+/* Estilo geral da página. */
 body {
-    min-height: 100vh;
-    font-family: Arial, Helvetica, sans-serif;
-    background: var(--creme);
-    color: var(--texto);
-    line-height: 1.6;
+    min-height: 100vh; /* altura mínima */
+    font-family: Arial, Helvetica, sans-serif; /* tipo de letra */
+    background: var(--creme); /* fundo */
+    color: var(--texto); /* cor do texto */
+    line-height: 1.6; /* altura da linha */
 }
 
+/* Impede a imagem de passar da largura da caixa. */
 img {
-    max-width: 100%;
+    max-width: 100%; /* largura máxima */
 }
 
+/* Estilo dos links. */
 a {
-    color: var(--vermelho);
+    color: var(--vermelho); /* cor do texto */
 }
 
+/* Estilo do cabeçalho. */
 header {
-    background-color: var(--vermelho);
-    color: white;
-    border-bottom: 6px solid var(--dourado);
+    background-color: var(--vermelho); /* cor de fundo */
+    color: white; /* cor do texto */
+    border-bottom: 6px solid var(--dourado); /* borda inferior */
 }
 
+/* Organiza a marca e o menu no topo. */
 .topo {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 18px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
-    flex-wrap: wrap;
+    max-width: 1100px; /* largura máxima */
+    margin: 0 auto; /* espaço externo */
+    padding: 18px 20px; /* espaço interno */
+    display: flex; /* modo de exibição */
+    align-items: center; /* alinhamento na vertical */
+    justify-content: space-between; /* distribuição na horizontal */
+    gap: 20px; /* espaço entre os itens */
+    flex-wrap: wrap; /* permite quebrar em mais linhas */
 }
 
+/* Organiza o brasão e o nome. */
 .marca {
-    display: flex;
-    align-items: center;
-    gap: 14px;
+    display: flex; /* modo de exibição */
+    align-items: center; /* alinhamento na vertical */
+    gap: 14px; /* espaço entre os itens */
 }
 
+/* Tamanho do brasão. */
 .marca img {
-    width: 76px;
+    width: 76px; /* largura */
 }
 
+/* Estilo do nome da pizzaria. */
 .marca-nome {
-    font-family: "Gotica", Georgia, serif;
-    font-size: 27px;
-    font-weight: bold;
-    letter-spacing: 1px;
-    line-height: 1.2;
+    font-family: "Gotica", Georgia, serif; /* tipo de letra */
+    font-size: 27px; /* tamanho da letra */
+    font-weight: bold; /* peso da letra */
+    letter-spacing: 1px; /* espaço entre as letras */
+    line-height: 1.2; /* altura da linha */
 }
 
+/* Estilo do slogan. */
 .marca-slogan {
-    font-size: 12px;
-    font-style: italic;
-    color: var(--dourado-claro);
+    font-size: 12px; /* tamanho da letra */
+    font-style: italic; /* estilo da letra */
+    color: var(--dourado-claro); /* cor do texto */
 }
 
+/* Organiza o menu. */
 nav {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
+    display: flex; /* modo de exibição */
+    flex-wrap: wrap; /* permite quebrar em mais linhas */
+    gap: 6px; /* espaço entre os itens */
 }
 
+/* Estilo dos links do menu. */
 nav a {
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 15px;
-    padding: 8px 14px;
-    border-radius: 4px;
+    color: white; /* cor do texto */
+    text-decoration: none; /* sublinhado do texto */
+    font-weight: bold; /* peso da letra */
+    font-size: 15px; /* tamanho da letra */
+    padding: 8px 14px; /* espaço interno */
+    border-radius: 4px; /* arredonda os cantos */
 }
 
+/* Link do menu com o mouse em cima, e link da página atual. */
 nav a:hover,
 nav a.ativo {
-    background-color: var(--vermelho-escuro);
-    color: var(--dourado-claro);
+    background-color: var(--vermelho-escuro); /* cor de fundo */
+    color: var(--dourado-claro); /* cor do texto */
 }
 
+/* Faixa de título da página. */
 .titulo-pagina {
-    background-color: var(--vermelho-escuro);
-    color: white;
-    text-align: center;
-    padding: 40px 20px;
+    background-color: var(--vermelho-escuro); /* cor de fundo */
+    color: white; /* cor do texto */
+    text-align: center; /* alinhamento do texto */
+    padding: 40px 20px; /* espaço interno */
 }
 
+/* Título da faixa. */
 .titulo-pagina h1 {
-    font-family: "Gotica", Georgia, serif;
-    font-size: 44px;
-    font-weight: normal;
-    letter-spacing: 1px;
+    font-family: "Gotica", Georgia, serif; /* tipo de letra */
+    font-size: 44px; /* tamanho da letra */
+    font-weight: normal; /* peso da letra */
+    letter-spacing: 1px; /* espaço entre as letras */
 }
 
+/* Subtítulo da faixa. */
 .titulo-pagina p {
-    color: var(--dourado-claro);
-    font-style: italic;
-    margin-top: 8px;
+    color: var(--dourado-claro); /* cor do texto */
+    font-style: italic; /* estilo da letra */
+    margin-top: 8px; /* espaço externo acima */
 }
 
+/* Faixa de destaque da página inicial. */
 .faixa-admin {
-    background-color: var(--verde);
-    color: white;
-    text-align: center;
-    padding: 18px 20px;
-    border-bottom: 5px solid var(--dourado);
+    background-color: var(--verde); /* cor de fundo */
+    color: white; /* cor do texto */
+    text-align: center; /* alinhamento do texto */
+    padding: 18px 20px; /* espaço interno */
+    border-bottom: 5px solid var(--dourado); /* borda inferior */
 }
 
+/* Texto forte da faixa. */
 .faixa-admin strong {
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: 20px;
+    font-family: Georgia, "Times New Roman", serif; /* tipo de letra */
+    font-size: 20px; /* tamanho da letra */
 }
 
+/* Texto da faixa. */
 .faixa-admin p {
-    margin: 3px 0 0;
-    color: #f4e6d2;
+    margin: 3px 0 0; /* espaço externo */
+    color: #f4e6d2; /* cor do texto */
 }
 
+/* Área principal da página. */
 main {
-    max-width: 1000px;
-    margin: 40px auto;
-    padding: 40px;
-    background-color: var(--papel);
-    border: 1px solid var(--borda);
-    border-radius: 10px;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.07);
+    max-width: 1000px; /* largura máxima */
+    margin: 40px auto; /* espaço externo */
+    padding: 40px; /* espaço interno */
+    background-color: var(--papel); /* cor de fundo */
+    border: 1px solid var(--borda); /* borda */
+    border-radius: 10px; /* arredonda os cantos */
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.07); /* sombra */
 }
 
+/* Estilo dos blocos de conteúdo. */
 section {
-    margin-bottom: 34px;
+    margin-bottom: 34px; /* espaço externo abaixo */
 }
 
+/* Último bloco da página. */
 section:last-child {
-    margin-bottom: 0;
+    margin-bottom: 0; /* espaço externo abaixo */
 }
 
+/* Títulos de seção. */
 h2 {
-    font-family: Georgia, "Times New Roman", serif;
-    color: var(--verde);
-    font-size: 27px;
-    margin-bottom: 8px;
+    font-family: Georgia, "Times New Roman", serif; /* tipo de letra */
+    color: var(--verde); /* cor do texto */
+    font-size: 27px; /* tamanho da letra */
+    margin-bottom: 8px; /* espaço externo abaixo */
 }
 
+/* Traço decorativo depois dos títulos. */
 h2::after {
-    content: "";
-    display: block;
-    width: 70px;
-    height: 3px;
-    margin: 10px 0 20px;
-    background-color: var(--dourado);
+    content: ""; /* conteúdo gerado pelo CSS */
+    display: block; /* modo de exibição */
+    width: 70px; /* largura */
+    height: 3px; /* altura */
+    margin: 10px 0 20px; /* espaço externo */
+    background-color: var(--dourado); /* cor de fundo */
 }
 
+/* Títulos dos cartões. */
 h3 {
-    font-family: Georgia, "Times New Roman", serif;
-    color: var(--vermelho);
-    font-size: 21px;
+    font-family: Georgia, "Times New Roman", serif; /* tipo de letra */
+    color: var(--vermelho); /* cor do texto */
+    font-size: 21px; /* tamanho da letra */
 }
 
+/* Estilo dos parágrafos. */
 p {
-    margin-bottom: 18px;
+    margin-bottom: 18px; /* espaço externo abaixo */
 }
 
+/* Grade dos cartões da página inicial. */
 .painel-acoes {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-    gap: 20px;
-    list-style: none;
+    display: grid; /* modo de exibição */
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); /* colunas da grade */
+    gap: 20px; /* espaço entre os itens */
+    list-style: none; /* marcador da lista */
 }
 
+/* Estilo de cada cartão. */
 .cartao-acao {
-    background-color: var(--creme);
-    border: 1px solid var(--borda);
-    border-top: 4px solid var(--vermelho);
-    border-radius: 8px;
-    padding: 22px;
+    background-color: var(--creme); /* cor de fundo */
+    border: 1px solid var(--borda); /* borda */
+    border-top: 4px solid var(--vermelho); /* borda superior */
+    border-radius: 8px; /* arredonda os cantos */
+    padding: 22px; /* espaço interno */
 }
 
+/* Imagem do cartão. */
 .cartao-acao img {
-    width: 90px;
-    display: block;
-    margin-bottom: 14px;
+    width: 90px; /* largura */
+    display: block; /* modo de exibição */
+    margin-bottom: 14px; /* espaço externo abaixo */
 }
 
+/* Texto do cartão. */
 .cartao-acao p {
-    color: var(--texto-suave);
+    color: var(--texto-suave); /* cor do texto */
 }
 
+/* Estilo dos botões. */
 .botao,
 button,
 input[type="submit"],
 input[type="reset"] {
-    display: inline-block;
-    background-color: var(--verde);
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-    border: none;
-    border-radius: 5px;
-    padding: 12px 20px;
-    font-size: 15px;
-    font-family: inherit;
-    cursor: pointer;
+    display: inline-block; /* modo de exibição */
+    background-color: var(--verde); /* cor de fundo */
+    color: white; /* cor do texto */
+    text-decoration: none; /* sublinhado do texto */
+    font-weight: bold; /* peso da letra */
+    border: none; /* borda */
+    border-radius: 5px; /* arredonda os cantos */
+    padding: 12px 20px; /* espaço interno */
+    font-size: 15px; /* tamanho da letra */
+    font-family: inherit; /* tipo de letra */
+    cursor: pointer; /* formato do cursor do mouse */
 }
 
+/* Botões com o mouse em cima. */
 .botao:hover,
 button:hover,
 input[type="submit"]:hover,
 input[type="reset"]:hover {
-    background-color: var(--verde-escuro);
+    background-color: var(--verde-escuro); /* cor de fundo */
 }
 
+/* Botões secundários. */
 .botao.secundario,
 input[type="reset"] {
-    background-color: var(--dourado);
-    color: var(--escuro);
+    background-color: var(--dourado); /* cor de fundo */
+    color: var(--escuro); /* cor do texto */
 }
 
+/* Botões secundários com o mouse em cima. */
 .botao.secundario:hover,
 input[type="reset"]:hover {
-    background-color: var(--dourado-claro);
+    background-color: var(--dourado-claro); /* cor de fundo */
 }
 
+/* Botões de ações perigosas. */
 .botao.perigo,
 button.perigo,
 input.perigo {
-    background-color: var(--perigo);
+    background-color: var(--perigo); /* cor de fundo */
 }
 
+/* Botões perigosos com o mouse em cima. */
 .botao.perigo:hover,
 button.perigo:hover,
 input.perigo:hover {
-    background-color: #741111;
+    background-color: #741111; /* cor de fundo */
 }
 
+/* Estilo dos formulários. */
 form {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    max-width: 580px;
+    display: flex; /* modo de exibição */
+    flex-direction: column; /* direção dos itens */
+    gap: 12px; /* espaço entre os itens */
+    max-width: 580px; /* largura máxima */
 }
 
+/* Estilo dos rótulos. */
 label {
-    font-weight: bold;
-    font-size: 15px;
+    font-weight: bold; /* peso da letra */
+    font-size: 15px; /* tamanho da letra */
 }
 
+/* Estilo dos campos do formulário. */
 input[type="text"],
 input[type="number"],
 select,
 textarea {
-    width: 100%;
-    font-family: inherit;
-    font-size: 16px;
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: white;
+    width: 100%; /* largura */
+    font-family: inherit; /* tipo de letra */
+    font-size: 16px; /* tamanho da letra */
+    padding: 12px; /* espaço interno */
+    border: 1px solid #ccc; /* borda */
+    border-radius: 5px; /* arredonda os cantos */
+    background-color: white; /* cor de fundo */
 }
 
+/* Campos com o cursor dentro. */
 input:focus,
 select:focus,
 textarea:focus {
-    outline: 2px solid var(--dourado);
-    border-color: var(--dourado);
+    outline: 2px solid var(--dourado); /* contorno de foco */
+    border-color: var(--dourado); /* cor da borda */
 }
 
+/* Organiza grupos de botões. */
 .botoes {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    align-items: center;
-    margin-top: 12px;
-    margin-bottom: 18px;
+    display: flex; /* modo de exibição */
+    flex-wrap: wrap; /* permite quebrar em mais linhas */
+    gap: 10px; /* espaço entre os itens */
+    align-items: center; /* alinhamento na vertical */
+    margin-top: 12px; /* espaço externo acima */
+    margin-bottom: 18px; /* espaço externo abaixo */
 }
 
+/* Mensagens de sucesso. */
 .mensagem {
-    color: var(--verde);
-    font-weight: bold;
+    color: var(--verde); /* cor do texto */
+    font-weight: bold; /* peso da letra */
 }
 
+/* Mensagens de erro. */
+.mensagem.erro {
+    color: var(--perigo); /* cor do texto */
+}
+
+/* Permite rolar a tabela para o lado. */
 .tabela-rolagem {
-    overflow-x: auto;
+    overflow-x: auto; /* rolagem horizontal */
 }
 
+/* Estilo da tabela. */
 table {
-    width: 100%;
-    min-width: 760px;
-    border-collapse: collapse;
-    font-size: 14px;
-    background-color: white;
+    width: 100%; /* largura */
+    min-width: 760px; /* largura mínima */
+    border-collapse: collapse; /* une as bordas da tabela */
+    font-size: 14px; /* tamanho da letra */
+    background-color: white; /* cor de fundo */
 }
 
+/* Células da tabela. */
 th,
 td {
-    text-align: left;
-    padding: 12px 14px;
-    border-bottom: 1px solid var(--borda);
-    vertical-align: top;
+    text-align: left; /* alinhamento do texto */
+    padding: 12px 14px; /* espaço interno */
+    border-bottom: 1px solid var(--borda); /* borda inferior */
+    vertical-align: top; /* alinhamento vertical na célula */
 }
 
+/* Títulos da tabela. */
 thead th {
-    background-color: var(--vermelho);
-    color: white;
-    font-size: 13px;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
+    background-color: var(--vermelho); /* cor de fundo */
+    color: white; /* cor do texto */
+    font-size: 13px; /* tamanho da letra */
+    letter-spacing: 0.5px; /* espaço entre as letras */
+    text-transform: uppercase; /* muda maiúsculas e minúsculas */
 }
 
+/* Pinta as linhas pares da tabela. */
 tbody tr:nth-child(even) {
-    background-color: #fff7ea;
+    background-color: #fff7ea; /* cor de fundo */
 }
 
+/* Estilo do preço. */
 .preco {
-    font-weight: bold;
-    color: var(--verde);
-    white-space: nowrap;
+    font-weight: bold; /* peso da letra */
+    color: var(--verde); /* cor do texto */
+    white-space: nowrap; /* quebra de linha do texto */
 }
 
+/* Organiza os botões da linha. */
 .acoes-tabela {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
+    display: flex; /* modo de exibição */
+    flex-wrap: wrap; /* permite quebrar em mais linhas */
+    gap: 8px; /* espaço entre os itens */
 }
 
+/* Estilo dos botões da linha. */
 .acoes-tabela a {
-    padding: 7px 10px;
-    border-radius: 4px;
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 13px;
+    padding: 7px 10px; /* espaço interno */
+    border-radius: 4px; /* arredonda os cantos */
+    color: white; /* cor do texto */
+    text-decoration: none; /* sublinhado do texto */
+    font-weight: bold; /* peso da letra */
+    font-size: 13px; /* tamanho da letra */
 }
 
+/* Botão Alterar. */
 .acoes-tabela .alterar {
-    background-color: var(--verde);
+    background-color: var(--verde); /* cor de fundo */
 }
 
+/* Botão Excluir. */
 .acoes-tabela .excluir {
-    background-color: var(--perigo);
+    background-color: var(--perigo); /* cor de fundo */
 }
 
+/* Caixa de confirmação da exclusão. */
 .confirmacao {
-    background-color: var(--creme);
-    border: 1px solid var(--borda);
-    border-left: 5px solid var(--perigo);
-    border-radius: 8px;
-    padding: 24px;
-    max-width: 620px;
+    background-color: var(--creme); /* cor de fundo */
+    border: 1px solid var(--borda); /* borda */
+    border-left: 5px solid var(--perigo); /* borda esquerda */
+    border-radius: 8px; /* arredonda os cantos */
+    padding: 24px; /* espaço interno */
+    max-width: 620px; /* largura máxima */
 }
 
+/* Grade com os dados da pizza. */
 .confirmacao dl {
-    display: grid;
-    grid-template-columns: 130px 1fr;
-    gap: 8px 18px;
-    margin: 20px 0;
+    display: grid; /* modo de exibição */
+    grid-template-columns: 130px 1fr; /* colunas da grade */
+    gap: 8px 18px; /* espaço entre os itens */
+    margin: 20px 0; /* espaço externo */
 }
 
+/* Rótulos dos dados. */
 .confirmacao dt {
-    font-weight: bold;
-    color: var(--vermelho);
+    font-weight: bold; /* peso da letra */
+    color: var(--vermelho); /* cor do texto */
 }
 
+/* Valores dos dados. */
 .confirmacao dd {
-    color: var(--texto);
+    color: var(--texto); /* cor do texto */
 }
 
+/* Estilo do rodapé. */
 footer {
-    background-color: var(--escuro);
-    color: #ddd4c6;
-    border-top: 6px solid var(--dourado);
-    text-align: center;
-    padding: 30px 20px;
-    margin-top: 50px;
+    background-color: var(--escuro); /* cor de fundo */
+    color: #ddd4c6; /* cor do texto */
+    border-top: 6px solid var(--dourado); /* borda superior */
+    text-align: center; /* alinhamento do texto */
+    padding: 30px 20px; /* espaço interno */
+    margin-top: 50px; /* espaço externo acima */
 }
 
+/* Nome no rodapé. */
 footer .marca-rodape {
-    font-family: "Gotica", Georgia, serif;
-    font-size: 25px;
-    color: white;
-    letter-spacing: 1px;
+    font-family: "Gotica", Georgia, serif; /* tipo de letra */
+    font-size: 25px; /* tamanho da letra */
+    color: white; /* cor do texto */
+    letter-spacing: 1px; /* espaço entre as letras */
 }
 
+/* Slogan no rodapé. */
 footer .lema-rodape {
-    font-style: italic;
-    color: var(--dourado-claro);
-    font-size: 14px;
-    margin: 6px 0 14px;
+    font-style: italic; /* estilo da letra */
+    color: var(--dourado-claro); /* cor do texto */
+    font-size: 14px; /* tamanho da letra */
+    margin: 6px 0 14px; /* espaço externo */
 }
 
+/* Identificação do trabalho. */
 footer .projeto {
-    font-size: 13px;
-    color: #9a8f80;
+    font-size: 13px; /* tamanho da letra */
+    color: #9a8f80; /* cor do texto */
 }
 
+/* Regras aplicadas apenas em telas de até 700px, como celulares. */
 @media (max-width: 700px) {
+    /* Organiza a marca e o menu no topo. */
     .topo {
-        justify-content: center;
-        text-align: center;
+        justify-content: center; /* distribuição na horizontal */
+        text-align: center; /* alinhamento do texto */
     }
 
+    /* Organiza o menu. */
     nav {
-        justify-content: center;
+        justify-content: center; /* distribuição na horizontal */
     }
 
+    /* Título da faixa. */
     .titulo-pagina h1 {
-        font-size: 32px;
+        font-size: 32px; /* tamanho da letra */
     }
 
+    /* Área principal da página. */
     main {
-        margin: 24px 14px;
-        padding: 26px 20px;
+        margin: 24px 14px; /* espaço externo */
+        padding: 26px 20px; /* espaço interno */
     }
 
+    /* Grade com os dados da pizza. */
     .confirmacao dl {
-        grid-template-columns: 1fr;
-        gap: 2px;
+        grid-template-columns: 1fr; /* colunas da grade */
+        gap: 2px; /* espaço entre os itens */
     }
 }

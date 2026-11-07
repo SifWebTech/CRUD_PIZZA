@@ -24,7 +24,7 @@ A aplicação permite as quatro operações sobre a entidade `Pizza`:
 
 ```
 br.com.pizzaria
-├── util         -> ConnectionFactory: abre e fecha a conexão com o banco
+├── util         -> ConnectionFactory (conexão), Html (escape), Mensagem e ValidadorPizza
 ├── model        -> Pizza: entidade do projeto
 ├── DAO          -> GenericDAO (interface) e PizzaDAOImpl (implementação)
 └── controller   -> um Servlet para cada operação do CRUD
@@ -47,6 +47,9 @@ CRUD_PIZZA/
 └── src/main/
     ├── java/br/com/pizzaria/
     │   ├── util/ConnectionFactory.java
+    │   ├── util/Html.java
+    │   ├── util/Mensagem.java
+    │   ├── util/ValidadorPizza.java
     │   ├── model/Pizza.java
     │   ├── DAO/GenericDAO.java
     │   ├── DAO/PizzaDAOImpl.java
@@ -64,7 +67,9 @@ CRUD_PIZZA/
         ├── imagens/
         ├── css/estilo.css
         ├── css/fontes/
-        └── WEB-INF/web.xml
+        └── WEB-INF/
+            ├── web.xml
+            └── mensagens.jspf
 ```
 
 ## Requisitos
