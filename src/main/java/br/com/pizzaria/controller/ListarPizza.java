@@ -2,6 +2,7 @@ package br.com.pizzaria.controller;
 
 import br.com.pizzaria.DAO.GenericDAO;
 import br.com.pizzaria.DAO.PizzaDAOImpl;
+import br.com.pizzaria.util.Mensagem;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -19,25 +20,22 @@ import java.util.List;
 @WebServlet(name = "ListarPizza", urlPatterns = {"/ListarPizza"})
 public class ListarPizza extends HttpServlet {
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
-        GenericDAO dao = new PizzaDAOImpl();
-        List<Object> pizzas = dao.listar();
-
-        request.setAttribute("pizzas", pizzas);
-        request.getRequestDispatcher("listarpizza.jsp").forward(request, response);
-    }
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
-    }
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
+        Mensagem.carregar(request);
+
+        try {
+            GenericDAO dao = new PizzaDAOImpl();
+            List<Object> pizzas = dao.listar();
+            request.setAttribute("pizzas", pizzas);
+        } catch (Exception ex) {
+            request.setAttribute(Mensagem.ERRO,
+                    "Não foi possível acessar o banco de dados. Verifique a conexão com o PostgreSQL.");
+            ex.printStackTrace();
+        }
+
+        request.getRequestDispatcher("listarpizza.jsp").forward(request, response);
     }
 }

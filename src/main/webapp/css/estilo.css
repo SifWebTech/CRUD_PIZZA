@@ -304,6 +304,10 @@ textarea:focus {
     font-weight: bold;
 }
 
+.mensagem.erro {
+    color: var(--perigo);
+}
+
 .tabela-rolagem {
     overflow-x: auto;
 }

@@ -1,3 +1,4 @@
+<%@page import="br.com.pizzaria.util.Html"%>
 <%@page import="br.com.pizzaria.model.Pizza"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -49,13 +50,13 @@
                         <dt>Código</dt>
                         <dd><%= pizza.getIdPizza()%></dd>
                         <dt>Nome</dt>
-                        <dd><%= pizza.getNomePizza()%></dd>
+                        <dd><%= Html.escapar(pizza.getNomePizza())%></dd>
                         <dt>Descrição</dt>
-                        <dd><%= pizza.getDescricaoPizza()%></dd>
+                        <dd><%= Html.escapar(pizza.getDescricaoPizza())%></dd>
                         <dt>Tamanho</dt>
-                        <dd><%= pizza.getTamanhoPizza()%></dd>
+                        <dd><%= Html.escapar(pizza.getTamanhoPizza())%></dd>
                         <dt>Preço</dt>
-                        <dd>R$ <%= pizza.getPrecoPizza()%></dd>
+                        <dd>R$ <%= Html.escapar(pizza.getPrecoPizza())%></dd>
                     </dl>
 
                     <form action="ExcluirPizza" method="post">

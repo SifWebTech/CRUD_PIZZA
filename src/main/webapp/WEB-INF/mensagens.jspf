@@ -1,0 +1,14 @@
+<%
+    Object mensagemSucesso = request.getAttribute("sucesso");
+    Object mensagemErro = request.getAttribute("erro");
+    if (mensagemSucesso != null) {
+%>
+<p class="mensagem"><%= br.com.pizzaria.util.Html.escapar(mensagemSucesso)%></p>
+<%
+    }
+    if (mensagemErro != null) {
+%>
+<p class="mensagem erro"><%= br.com.pizzaria.util.Html.escapar(mensagemErro)%></p>
+<%
+    }
+%>

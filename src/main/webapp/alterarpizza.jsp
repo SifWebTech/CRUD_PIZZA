@@ -1,3 +1,4 @@
+<%@page import="br.com.pizzaria.util.Html"%>
 <%@page import="br.com.pizzaria.model.Pizza"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -36,6 +37,7 @@
         <main>
             <section>
                 <h2>Edição do cardápio</h2>
+                <%@ include file="/WEB-INF/mensagens.jspf" %>
 
                 <%
                     Pizza pizza = (Pizza) request.getAttribute("pizza");
@@ -47,11 +49,11 @@
 
                     <label for="nomePizza">Nome</label>
                     <input type="text" id="nomePizza" name="nomePizza" maxlength="60" required
-                           value="<%= pizza.getNomePizza()%>">
+                           value="<%= Html.escapar(pizza.getNomePizza())%>">
 
                     <label for="descricaoPizza">Descrição</label>
                     <input type="text" id="descricaoPizza" name="descricaoPizza" maxlength="200" required
-                           value="<%= pizza.getDescricaoPizza()%>">
+                           value="<%= Html.escapar(pizza.getDescricaoPizza())%>">
 
                     <label for="tamanhoPizza">Tamanho</label>
                     <select id="tamanhoPizza" name="tamanhoPizza" required>
@@ -61,8 +63,8 @@
                     </select>
 
                     <label for="precoPizza">Preço (R$)</label>
-                    <input type="number" id="precoPizza" name="precoPizza" step="0.01" min="0" required
-                           value="<%= pizza.getPrecoPizza()%>">
+                    <input type="number" id="precoPizza" name="precoPizza" step="0.01" min="0.01" required
+                           value="<%= Html.escapar(pizza.getPrecoPizza())%>">
 
                     <div class="botoes">
                         <input type="submit" value="Salvar alterações">

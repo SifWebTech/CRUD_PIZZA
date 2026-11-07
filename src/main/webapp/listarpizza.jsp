@@ -1,3 +1,4 @@
+<%@page import="br.com.pizzaria.util.Html"%>
 <%@page import="br.com.pizzaria.model.Pizza"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -37,7 +38,7 @@
         <main>
             <section>
                 <h2>Cardápio administrativo</h2>
-                <p class="mensagem">${sucesso}</p>
+                <%@ include file="/WEB-INF/mensagens.jspf" %>
 
                 <div class="botoes">
                     <a class="botao" href="cadastrarpizza.jsp">Cadastrar nova pizza</a>
@@ -59,15 +60,21 @@
                             <%
                                 List<Pizza> pizzas = (List<Pizza>) request.getAttribute("pizzas");
 
-                                if (pizzas != null && !pizzas.isEmpty()) {
+                                if (pizzas == null) {
+                            %>
+                            <tr>
+                                <td colspan="6">Não foi possível carregar as pizzas.</td>
+                            </tr>
+                            <%
+                                } else if (!pizzas.isEmpty()) {
                                     for (Pizza pizza : pizzas) {
                             %>
                             <tr>
                                 <td><%= pizza.getIdPizza()%></td>
-                                <td><strong><%= pizza.getNomePizza()%></strong></td>
-                                <td><%= pizza.getDescricaoPizza()%></td>
-                                <td><%= pizza.getTamanhoPizza()%></td>
-                                <td class="preco">R$ <%= pizza.getPrecoPizza()%></td>
+                                <td><strong><%= Html.escapar(pizza.getNomePizza())%></strong></td>
+                                <td><%= Html.escapar(pizza.getDescricaoPizza())%></td>
+                                <td><%= Html.escapar(pizza.getTamanhoPizza())%></td>
+                                <td class="preco">R$ <%= Html.escapar(pizza.getPrecoPizza())%></td>
                                 <td>
                                     <div class="acoes-tabela">
                                         <a class="alterar" href="AlterarPizza?idPizza=<%= pizza.getIdPizza()%>">Alterar</a>

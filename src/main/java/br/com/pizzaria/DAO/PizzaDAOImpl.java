@@ -6,6 +6,7 @@ import br.com.pizzaria.util.ConnectionFactory;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +17,7 @@ import java.util.List;
 public class PizzaDAOImpl implements GenericDAO {
 
     @Override
-    public boolean cadastrar(Object object) {
+    public boolean cadastrar(Object object) throws Exception {
         Pizza pizza = (Pizza) object;
 
         Connection con = null;
@@ -31,24 +32,14 @@ public class PizzaDAOImpl implements GenericDAO {
             stmt.setString(2, pizza.getDescricaoPizza());
             stmt.setString(3, pizza.getTamanhoPizza());
             stmt.setBigDecimal(4, pizza.getPrecoPizza());
-            stmt.execute();
-            return true;
-        } catch (Exception ex) {
-            System.out.println("Problema ao cadastrar a pizza: " + ex.getMessage());
-            ex.printStackTrace();
-            return false;
+            return stmt.executeUpdate() > 0;
         } finally {
-            try {
-                ConnectionFactory.closeConnection(con, stmt);
-            } catch (Exception ex) {
-                System.out.println("Problema ao fechar a conexao: " + ex.getMessage());
-                ex.printStackTrace();
-            }
+            fechar(con, stmt, null);
         }
     }
 
     @Override
-    public boolean alterar(Object object) {
+    public boolean alterar(Object object) throws Exception {
         Pizza pizza = (Pizza) object;
 
         Connection con = null;
@@ -64,24 +55,14 @@ public class PizzaDAOImpl implements GenericDAO {
             stmt.setString(3, pizza.getTamanhoPizza());
             stmt.setBigDecimal(4, pizza.getPrecoPizza());
             stmt.setInt(5, pizza.getIdPizza());
-            stmt.executeUpdate();
-            return true;
-        } catch (Exception ex) {
-            System.out.println("Problema ao alterar a pizza: " + ex.getMessage());
-            ex.printStackTrace();
-            return false;
+            return stmt.executeUpdate() > 0;
         } finally {
-            try {
-                ConnectionFactory.closeConnection(con, stmt);
-            } catch (Exception ex) {
-                System.out.println("Problema ao fechar a conexao: " + ex.getMessage());
-                ex.printStackTrace();
-            }
+            fechar(con, stmt, null);
         }
     }
 
     @Override
-    public void excluir(int idObject) {
+    public boolean excluir(int idObject) throws Exception {
         Connection con = null;
         PreparedStatement stmt = null;
         String sql = "DELETE FROM pizza WHERE id_pizza = ?";
@@ -90,22 +71,14 @@ public class PizzaDAOImpl implements GenericDAO {
             con = ConnectionFactory.getConnection();
             stmt = con.prepareStatement(sql);
             stmt.setInt(1, idObject);
-            stmt.executeUpdate();
-        } catch (Exception ex) {
-            System.out.println("Problema ao excluir a pizza: " + ex.getMessage());
-            ex.printStackTrace();
+            return stmt.executeUpdate() > 0;
         } finally {
-            try {
-                ConnectionFactory.closeConnection(con, stmt);
-            } catch (Exception ex) {
-                System.out.println("Problema ao fechar a conexao: " + ex.getMessage());
-                ex.printStackTrace();
-            }
+            fechar(con, stmt, null);
         }
     }
 
     @Override
-    public List<Object> listar() {
+    public List<Object> listar() throws Exception {
         List<Object> resultado = new ArrayList<Object>();
 
         Connection con = null;
@@ -120,33 +93,19 @@ public class PizzaDAOImpl implements GenericDAO {
             rs = stmt.executeQuery();
 
             while (rs.next()) {
-                Pizza pizza = new Pizza();
-                pizza.setIdPizza(rs.getInt("id_pizza"));
-                pizza.setNomePizza(rs.getString("nome_pizza"));
-                pizza.setDescricaoPizza(rs.getString("descricao_pizza"));
-                pizza.setTamanhoPizza(rs.getString("tamanho_pizza"));
-                pizza.setPrecoPizza(rs.getBigDecimal("preco_pizza"));
-                resultado.add(pizza);
+                resultado.add(montarPizza(rs));
             }
-        } catch (Exception ex) {
-            System.out.println("Problema ao listar as pizzas: " + ex.getMessage());
-            ex.printStackTrace();
         } finally {
-            try {
-                ConnectionFactory.closeConnection(con, stmt, rs);
-            } catch (Exception ex) {
-                System.out.println("Problema ao fechar a conexao: " + ex.getMessage());
-                ex.printStackTrace();
-            }
+            fechar(con, stmt, rs);
         }
         return resultado;
     }
 
     /**
-     * Busca uma unica pizza pelo seu id. Utilizada para carregar a tela de alteracao.
+     * Busca uma unica pizza pelo seu id. Retorna null se ela nao existir.
      */
     @Override
-    public Object buscarPorId(int idObject) {
+    public Object buscarPorId(int idObject) throws Exception {
         Pizza pizza = null;
 
         Connection con = null;
@@ -162,24 +121,30 @@ public class PizzaDAOImpl implements GenericDAO {
             rs = stmt.executeQuery();
 
             if (rs.next()) {
-                pizza = new Pizza();
-                pizza.setIdPizza(rs.getInt("id_pizza"));
-                pizza.setNomePizza(rs.getString("nome_pizza"));
-                pizza.setDescricaoPizza(rs.getString("descricao_pizza"));
-                pizza.setTamanhoPizza(rs.getString("tamanho_pizza"));
-                pizza.setPrecoPizza(rs.getBigDecimal("preco_pizza"));
+                pizza = montarPizza(rs);
             }
-        } catch (Exception ex) {
-            System.out.println("Problema ao buscar a pizza: " + ex.getMessage());
-            ex.printStackTrace();
         } finally {
-            try {
-                ConnectionFactory.closeConnection(con, stmt, rs);
-            } catch (Exception ex) {
-                System.out.println("Problema ao fechar a conexao: " + ex.getMessage());
-                ex.printStackTrace();
-            }
+            fechar(con, stmt, rs);
         }
         return pizza;
+    }
+
+    private Pizza montarPizza(ResultSet rs) throws SQLException {
+        Pizza pizza = new Pizza();
+        pizza.setIdPizza(rs.getInt("id_pizza"));
+        pizza.setNomePizza(rs.getString("nome_pizza"));
+        pizza.setDescricaoPizza(rs.getString("descricao_pizza"));
+        pizza.setTamanhoPizza(rs.getString("tamanho_pizza"));
+        pizza.setPrecoPizza(rs.getBigDecimal("preco_pizza"));
+        return pizza;
+    }
+
+    private void fechar(Connection con, PreparedStatement stmt, ResultSet rs) {
+        try {
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        } catch (SQLException ex) {
+            System.out.println("Problema ao fechar a conexao: " + ex.getMessage());
+            ex.printStackTrace();
+        }
     }
 }

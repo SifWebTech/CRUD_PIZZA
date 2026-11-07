@@ -1,3 +1,4 @@
+<%@page import="br.com.pizzaria.util.Html"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -38,20 +39,23 @@
 
                 <form name="cadastrarPizza" action="CadastrarPizza" method="post">
                     <label for="nomePizza">Nome</label>
-                    <input type="text" id="nomePizza" name="nomePizza" maxlength="60" placeholder="Ex.: Margherita" required>
+                    <input type="text" id="nomePizza" name="nomePizza" maxlength="60" placeholder="Ex.: Margherita" required
+                           value="<%= Html.escapar(request.getParameter("nomePizza"))%>">
 
                     <label for="descricaoPizza">Descrição</label>
-                    <input type="text" id="descricaoPizza" name="descricaoPizza" maxlength="200" placeholder="Ingredientes principais" required>
+                    <input type="text" id="descricaoPizza" name="descricaoPizza" maxlength="200" placeholder="Ingredientes principais" required
+                           value="<%= Html.escapar(request.getParameter("descricaoPizza"))%>">
 
                     <label for="tamanhoPizza">Tamanho</label>
                     <select id="tamanhoPizza" name="tamanhoPizza" required>
-                        <option value="Pequena">Pequena</option>
-                        <option value="Media">Média</option>
-                        <option value="Grande">Grande</option>
+                        <option value="Pequena" <%= "Pequena".equals(request.getParameter("tamanhoPizza")) ? "selected" : ""%>>Pequena</option>
+                        <option value="Media"   <%= "Media".equals(request.getParameter("tamanhoPizza")) ? "selected" : ""%>>Média</option>
+                        <option value="Grande"  <%= "Grande".equals(request.getParameter("tamanhoPizza")) ? "selected" : ""%>>Grande</option>
                     </select>
 
                     <label for="precoPizza">Preço (R$)</label>
-                    <input type="number" id="precoPizza" name="precoPizza" step="0.01" min="0" placeholder="0.00" required>
+                    <input type="number" id="precoPizza" name="precoPizza" step="0.01" min="0.01" placeholder="0.00" required
+                           value="<%= Html.escapar(request.getParameter("precoPizza"))%>">
 
                     <div class="botoes">
                         <input type="submit" value="Cadastrar">
@@ -60,7 +64,7 @@
                     </div>
                 </form>
 
-                <p class="mensagem">${sucesso}</p>
+                <%@ include file="/WEB-INF/mensagens.jspf" %>
             </section>
         </main>
 

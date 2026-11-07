@@ -3,6 +3,8 @@ package br.com.pizzaria.controller;
 import br.com.pizzaria.DAO.GenericDAO;
 import br.com.pizzaria.DAO.PizzaDAOImpl;
 import br.com.pizzaria.model.Pizza;
+import br.com.pizzaria.util.Mensagem;
+import br.com.pizzaria.util.ValidadorPizza;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -11,7 +13,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 
 /**
  * Servlet responsavel pela alteracao de uma pizza.
@@ -27,10 +28,21 @@ public class AlterarPizza extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        int idPizza = Integer.parseInt(request.getParameter("idPizza"));
+        Pizza pizza;
 
-        GenericDAO dao = new PizzaDAOImpl();
-        Pizza pizza = (Pizza) dao.buscarPorId(idPizza);
+        try {
+            int idPizza = Integer.parseInt(request.getParameter("idPizza"));
+
+            GenericDAO dao = new PizzaDAOImpl();
+            pizza = (Pizza) dao.buscarPorId(idPizza);
+        } catch (NumberFormatException ex) {
+            voltarParaListagem(request, response, Mensagem.ERRO, "Código de pizza inválido.");
+            return;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            voltarParaListagem(request, response, Mensagem.ERRO, "Não foi possível carregar a pizza.");
+            return;
+        }
 
         request.setAttribute("pizza", pizza);
         request.getRequestDispatcher("alterarpizza.jsp").forward(request, response);
@@ -45,29 +57,50 @@ public class AlterarPizza extends HttpServlet {
 
         request.setCharacterEncoding("UTF-8");
 
-        String mensagem;
+        Pizza pizza = new Pizza();
 
         try {
-            Pizza pizza = new Pizza();
             pizza.setIdPizza(Integer.parseInt(request.getParameter("idPizza")));
-            pizza.setNomePizza(request.getParameter("nomePizza"));
-            pizza.setDescricaoPizza(request.getParameter("descricaoPizza"));
-            pizza.setTamanhoPizza(request.getParameter("tamanhoPizza"));
-            pizza.setPrecoPizza(new BigDecimal(request.getParameter("precoPizza").replace(",", ".")));
-
-            GenericDAO dao = new PizzaDAOImpl();
-
-            if (dao.alterar(pizza)) {
-                mensagem = "Pizza alterada com sucesso!";
-            } else {
-                mensagem = "Nao foi possivel alterar a pizza.";
-            }
-        } catch (Exception ex) {
-            mensagem = "Erro ao alterar a pizza: " + ex.getMessage();
-            ex.printStackTrace();
+        } catch (NumberFormatException ex) {
+            voltarParaListagem(request, response, Mensagem.ERRO, "Código de pizza inválido.");
+            return;
         }
 
-        request.setAttribute("sucesso", mensagem);
-        request.getRequestDispatcher("ListarPizza").forward(request, response);
+        pizza.setNomePizza(limpar(request.getParameter("nomePizza")));
+        pizza.setDescricaoPizza(limpar(request.getParameter("descricaoPizza")));
+        pizza.setTamanhoPizza(request.getParameter("tamanhoPizza"));
+        pizza.setPrecoPizza(ValidadorPizza.converterPreco(request.getParameter("precoPizza")));
+
+        String erro = ValidadorPizza.validar(pizza);
+
+        if (erro == null) {
+            try {
+                GenericDAO dao = new PizzaDAOImpl();
+
+                if (dao.alterar(pizza)) {
+                    voltarParaListagem(request, response, Mensagem.SUCESSO, "Pizza alterada com sucesso!");
+                } else {
+                    voltarParaListagem(request, response, Mensagem.ERRO, "Pizza não encontrada.");
+                }
+                return;
+            } catch (Exception ex) {
+                erro = "Não foi possível alterar a pizza. Verifique a conexão com o PostgreSQL.";
+                ex.printStackTrace();
+            }
+        }
+
+        request.setAttribute(Mensagem.ERRO, erro);
+        request.setAttribute("pizza", pizza);
+        request.getRequestDispatcher("alterarpizza.jsp").forward(request, response);
+    }
+
+    private void voltarParaListagem(HttpServletRequest request, HttpServletResponse response,
+                                    String tipo, String texto) throws IOException {
+        Mensagem.guardar(request, tipo, texto);
+        response.sendRedirect("ListarPizza");
+    }
+
+    private String limpar(String texto) {
+        return texto == null ? null : texto.trim();
     }
 }
