@@ -15,6 +15,7 @@ O projeto desenvolvido e um CRUD Java Web para cadastro de pizzas, usando:
 - Maven
 - JSP
 - Servlets com `jakarta.servlet`
+- Jetty 12 pelo Maven, sem instalar servidor
 - Padrao MVC
 - Camada DAO
 - PostgreSQL
@@ -129,12 +130,13 @@ Observacao sobre a senha:
 - O projeto le a senha pela variavel de ambiente `DB_PASSWORD` ou pelo arquivo local `.env`.
 - O arquivo `.env` esta no `.gitignore`, por isso nao deve ser enviado ao GitHub.
 - Se a variavel nao for informada, o valor padrao usado e `postgres`.
+- A variavel `DB_PASSWORD` tem prioridade sobre o `.env`.
+- A senha e lida quando o servidor inicia; depois de alterar, e preciso reiniciar.
 
 Exemplo no PowerShell:
 
 ```powershell
-$env:DB_PASSWORD="sua_senha_do_postgres"
-mvn jetty:run
+$env:DB_PASSWORD='sua_senha_do_postgres'; mvn jetty:run
 ```
 
 Exemplo de arquivo `.env` local:
@@ -323,6 +325,8 @@ Responsabilidade de cada controller:
 - `AlterarPizza`: carrega a pizza por id e grava as alteracoes.
 - `ExcluirPizza`: exclui a pizza selecionada e retorna para a listagem.
 
+Esses controllers foram ajustados depois nas secoes 7 e 9.
+
 Evidencias no Git:
 
 ```
@@ -414,6 +418,13 @@ Resultado:
 - a aplicacao manteve o CRUD funcional;
 - o sistema ficou visualmente alinhado ao primeiro projeto.
 
+A documentacao dessa etapa foi feita na branch `feature/documentacao-layout`:
+
+```
+bc7f066 Documentando integracao visual e creditos dos assets
+da924a2 Merge branch 'feature/documentacao-layout'
+```
+
 ## 8. Testes e finalizacao
 
 Orientacao do professor:
@@ -434,7 +445,7 @@ Como testar o projeto:
 1. Entrar na pasta do projeto:
 
 ```powershell
-cd "D:\0 - FATEC\0001 - ABC - fatec - todos arquivos\5º Semestre - Matérias\6ª - Tópicos Especiais II - ANDRÉ MUSSATO\CRUD_PIZZA"
+cd "caminho\da\pasta\CRUD_PIZZA"
 ```
 
 2. Confirmar que esta na `main`:
@@ -451,7 +462,8 @@ Your branch is up to date with 'origin/main'.
 nothing to commit, working tree clean
 ```
 
-3. Preparar o banco de dados:
+3. Preparar o banco de dados, apenas na primeira vez, porque rodar o script de
+novo duplica as pizzas de exemplo:
 
 ```powershell
 $env:PGPASSWORD="sua_senha_do_postgres"
@@ -459,13 +471,7 @@ $env:PGPASSWORD="sua_senha_do_postgres"
 & "C:\Program Files\PostgreSQL\18\bin\psql.exe" -h localhost -p 5433 -U postgres -d crud_pizza -f database\script.sql
 ```
 
-4. Definir a senha para a aplicacao:
-
-```powershell
-$env:DB_PASSWORD="sua_senha_do_postgres"
-```
-
-Tambem e possivel criar um arquivo `.env` na raiz do projeto:
+4. Criar o arquivo `.env` na raiz do projeto, com a senha do PostgreSQL:
 
 ```env
 DB_PASSWORD=sua_senha_do_postgres
@@ -475,6 +481,12 @@ DB_PASSWORD=sua_senha_do_postgres
 
 ```powershell
 mvn jetty:run
+```
+
+Sem o `.env`, informe a senha no mesmo comando:
+
+```powershell
+$env:DB_PASSWORD='sua_senha_do_postgres'; mvn jetty:run
 ```
 
 6. Acessar no navegador:
@@ -510,6 +522,63 @@ Esses testes confirmaram que:
 - a nova tela de exclusao abriu corretamente;
 - o banco retornou a pizza `Margherita` na listagem.
 
+## 9. Correcoes de qualidade e comentarios do codigo
+
+Depois da revisao do projeto, foi criada a branch
+`fix/correcoes-crud-e-comentarios`, sem mudar a estrutura MVC + DAO.
+
+Correcoes realizadas:
+
+| Item | Problema | Como ficou |
+|------|----------|------------|
+| 1 | Erros do banco eram escondidos no DAO | O DAO lanca a excecao e o Servlet mostra a mensagem na tela |
+| 2 | Textos eram exibidos sem tratamento nas JSPs | `Html.escapar` evita XSS |
+| 3 | Validacao dependia do navegador | `ValidadorPizza` confere os dados no servidor |
+| 4 | Alterar ou excluir um id inexistente parecia ter funcionado | Os metodos informam se alguma linha foi afetada |
+| 5 | Id ausente ou invalido gerava erro | Os Servlets tratam o id e mostram uma mensagem |
+| 6 | O cadastro podia gravar por `GET` | `GET` so abre o formulario; a gravacao e por `POST` |
+| 7 | Atualizar a pagina podia repetir a operacao | Post/Redirect/Get, com `Mensagem` e `WEB-INF/mensagens.jspf` |
+
+Arquivos novos:
+
+```
+src/main/java/br/com/pizzaria/util/Html.java
+src/main/java/br/com/pizzaria/util/Mensagem.java
+src/main/java/br/com/pizzaria/util/ValidadorPizza.java
+src/main/webapp/WEB-INF/mensagens.jspf
+```
+
+Comentarios linha a linha:
+
+- foram adicionados em Java, JSP, CSS, XML e SQL;
+- as JSPs usam `<%-- --%>`, que nao chega ao HTML do navegador;
+- nao alteram o comportamento do sistema.
+
+Testes realizados com um PostgreSQL temporario:
+
+```text
+BUILD=ok
+FLUXO_CRUD=ok, com acentos e preco com virgula
+XSS=ok
+VALIDACOES=ok, nada foi gravado com dados invalidos
+ID_INVALIDO_OU_INEXISTENTE=ok
+CADASTRO_POR_GET=nao grava
+ATUALIZAR_PAGINA=nao repete a operacao
+BANCO_DESLIGADO=mostra mensagem de erro
+COMENTARIOS_JSP_NO_HTML=nenhum
+```
+
+Depois disso, novas pizzas tambem foram cadastradas pelo navegador no banco
+local real.
+
+Evidencias no Git:
+
+```
+da45298 Corrigindo tratamento de erros, validacao e seguranca do CRUD
+ffafd76 Comentando o codigo linha a linha
+0457006 Merge branch 'fix/correcoes-crud-e-comentarios'
+```
+
 ## Conferencia do historico Git
 
 Comando para visualizar o fluxo completo:
@@ -529,6 +598,8 @@ O historico do projeto mostra:
 efb6a63 Merge branch 'feature/controller'
 9d3a6b3 Documentando fluxo do projeto e configuracao local do banco
 4a26ec4 Integrando layout da pizzaria ao CRUD
+da924a2 Merge branch 'feature/documentacao-layout'
+0457006 Merge branch 'fix/correcoes-crud-e-comentarios'
 ```
 
 Branches existentes no remoto:
@@ -539,8 +610,12 @@ origin/feature/model
 origin/feature/dao
 origin/feature/view
 origin/feature/controller
+origin/fix/correcoes-crud-e-comentarios
 origin/main
 ```
+
+As branches `feature/layout` e `feature/documentacao-layout` nao foram publicadas
+no GitHub, mas seus commits estao na `main`.
 
 Portanto, o fluxo solicitado foi atendido:
 
@@ -562,6 +637,8 @@ Durante a verificacao local:
 - A rota de listagem respondeu HTTP `200`.
 - O layout integrado respondeu HTTP `200` nas paginas principais.
 - A tela de exclusao passou a ter confirmacao antes do `POST`.
+- As correcoes da secao 9 foram testadas e nao gravaram dados invalidos.
+- A conexao com o banco real funcionou usando a senha do arquivo `.env`.
 
 ## Roteiro para apresentacao HTML
 
@@ -589,7 +666,8 @@ estrutura sugerida da apresentacao e:
 5. **Fluxo Git exigido**
    - `main -> pull -> branch -> desenvolvimento -> commit -> merge -> push`.
    - Mostrar as branches `feature/util`, `feature/model`, `feature/dao`,
-     `feature/view`, `feature/controller` e `feature/layout`.
+     `feature/view`, `feature/controller`, `feature/layout` e
+     `fix/correcoes-crud-e-comentarios`.
 
 6. **Etapas de desenvolvimento**
    - Estrutura inicial.
@@ -599,6 +677,7 @@ estrutura sugerida da apresentacao e:
    - View.
    - Controller.
    - Layout integrado.
+   - Correcoes de qualidade e comentarios do codigo.
 
 7. **Banco de dados**
    - Tabela `pizza`.
@@ -611,6 +690,7 @@ estrutura sugerida da apresentacao e:
    - Listar pizzas.
    - Alterar pizza.
    - Confirmar exclusao.
+   - Mostrar uma validacao recusando um preco invalido.
 
 9. **Evidencias**
    - Commits.
@@ -637,6 +717,8 @@ O projeto esta de acordo com a orientacao do professor:
 - segue MVC + DAO;
 - usa PostgreSQL;
 - reaproveita o layout do primeiro projeto da pizzaria;
+- valida os dados no servidor e mostra mensagens de erro claras;
+- possui comentarios linha a linha no codigo;
 - possui branches por etapa;
 - possui commits claros;
 - possui merges das etapas na `main`;
